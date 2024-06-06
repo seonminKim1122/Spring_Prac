@@ -18,7 +18,7 @@ public class Reply extends TimeStamp {
     private Long id;
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 
     public Reply(String content, Board board) {

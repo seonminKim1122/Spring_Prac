@@ -37,6 +37,10 @@ public class Board extends TimeStamp {
         this.content = content;
     }
 
+    public void addViews() {
+        this.views++;
+    }
+
     public int getNumOfReplies() {
         return replies.size();
     }

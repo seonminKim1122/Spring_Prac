@@ -27,6 +27,8 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public BoardResponseDto getBoard(Long id) {
         Board board = getBoardOrElseThrow(id);
+        board.addViews();
+        board = boardRepository.save(board);
         return entityToDTO(board);
     }
 
