@@ -1,11 +1,12 @@
 package com.example.demo.board.domain;
 
 import com.example.demo.common.TimeStamp;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.demo.reply.domain.Reply;
+import jakarta.persistence.*;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,6 +18,9 @@ public class Board extends TimeStamp {
     private String title;
     private String content;
     private int views = 0;
+
+    @OneToMany
+    private List<Reply> replies = new ArrayList<>();
 
     protected Board() {}
 
@@ -31,6 +35,10 @@ public class Board extends TimeStamp {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public int getNumOfReplies() {
+        return replies.size();
     }
 
     @Override
