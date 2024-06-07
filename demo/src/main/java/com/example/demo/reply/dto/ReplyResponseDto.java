@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ReplyResponseDto {
 
+    private String username;
     private Long id;
     private String content;
     private LocalDateTime createdAt;

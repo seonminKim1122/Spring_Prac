@@ -4,6 +4,7 @@ import com.example.demo.board.domain.Board;
 import com.example.demo.board.dto.BoardResponseDto;
 import com.example.demo.board.repository.BoardRepository;
 import com.example.demo.reply.dto.ReplyResponseDto;
+import com.example.demo.user.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,8 @@ public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
 
     @Override
-    public BoardResponseDto saveBoard(String title, String content) {
-        Board board = new Board(title, content);
+    public BoardResponseDto saveBoard(User user, String title, String content) {
+        Board board = new Board(user, title, content);
         board = boardRepository.save(board);
         return entityToDTO(board);
     }
@@ -33,8 +34,11 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public BoardResponseDto updateBoard(Long id, String title, String content) {
+    public BoardResponseDto updateBoard(User user, Long id, String title, String content) throws Exception {
         Board board = getBoardOrElseThrow(id);
+        if (!board.getUser().getUsername().equals(user.getUsername())) {
+            throw new Exception("게시글을 수정할 권한이 없습니다.");
+        }
         board.setTitle(title);
         board.setContent(content);
         board = boardRepository.save(board);
@@ -42,8 +46,11 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public String deleteBoard(Long id) {
+    public String deleteBoard(User user, Long id) throws Exception {
         Board board = getBoardOrElseThrow(id);
+        if (!board.getUser().getUsername().equals(user.getUsername())) {
+            throw new Exception("게시글을 삭제할 권한이 없습니다.");
+        }
         boardRepository.delete(board);
         return "Successfully deleted";
     }
@@ -66,6 +73,7 @@ public class BoardServiceImpl implements BoardService {
 
     private BoardResponseDto entityToDTO(Board board) {
         return BoardResponseDto.builder()
+                .username(board.getUser().getUsername())
                 .id(board.getId())
                 .title(board.getTitle())
                 .content(board.getContent())

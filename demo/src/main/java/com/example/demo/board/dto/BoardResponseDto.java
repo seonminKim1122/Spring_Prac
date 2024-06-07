@@ -15,6 +15,7 @@ import java.util.List;
 @Builder
 public class BoardResponseDto {
 
+    private String username;
     private Long id;
     private String title;
     private String content;
@@ -23,6 +24,5 @@ public class BoardResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private List<ReplyResponseDto> replies;
-
 
 }

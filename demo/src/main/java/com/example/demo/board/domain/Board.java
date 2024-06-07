@@ -2,6 +2,7 @@ package com.example.demo.board.domain;
 
 import com.example.demo.common.TimeStamp;
 import com.example.demo.reply.domain.Reply;
+import com.example.demo.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -19,12 +20,16 @@ public class Board extends TimeStamp {
     private String content;
     private int views = 0;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Reply> replies = new ArrayList<>();
+
+    @ManyToOne
+    private User user;
 
     protected Board() {}
 
-    public Board(String title, String content) {
+    public Board(User user, String title, String content) {
+        this.user = user;
         this.title = title;
         this.content = content;
     }

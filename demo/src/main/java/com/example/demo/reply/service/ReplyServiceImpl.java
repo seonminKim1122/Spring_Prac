@@ -5,6 +5,7 @@ import com.example.demo.board.repository.BoardRepository;
 import com.example.demo.reply.domain.Reply;
 import com.example.demo.reply.dto.ReplyResponseDto;
 import com.example.demo.reply.repository.ReplyRepository;
+import com.example.demo.user.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,13 @@ public class ReplyServiceImpl implements ReplyService {
     private final BoardRepository boardRepository;
 
     @Override
-    public ReplyResponseDto saveReply(String content, Long boardId) {
+    public ReplyResponseDto saveReply(User user, String content, Long boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("Board not found"));
-        Reply reply = new Reply(content, board);
+        Reply reply = new Reply(user, content, board);
         reply = replyRepository.save(reply);
 
         return ReplyResponseDto.builder()
+                .username(user.getUsername())
                 .id(reply.getId())
                 .content(reply.getContent())
                 .createdAt(reply.getCreatedAt())
@@ -31,11 +33,16 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
-    public ReplyResponseDto updateReply(Long replyId, String content) {
+    public ReplyResponseDto updateReply(User user, Long replyId, String content) throws Exception {
         Reply reply = replyRepository.findById(replyId).orElseThrow(() -> new IllegalArgumentException("Reply not found"));
+        if (!reply.getUser().getUsername().equals(user.getUsername())) {
+            throw new Exception("댓글을 수정할 권한이 없습니다.");
+        }
+
         reply.setContent(content);
         reply = replyRepository.save(reply);
         return ReplyResponseDto.builder()
+                .username(user.getUsername())
                 .id(reply.getId())
                 .content(reply.getContent())
                 .createdAt(reply.getCreatedAt())

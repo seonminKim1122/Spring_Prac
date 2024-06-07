@@ -2,6 +2,7 @@ package com.example.demo.reply.domain;
 
 import com.example.demo.board.domain.Board;
 import com.example.demo.common.TimeStamp;
+import com.example.demo.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,11 @@ public class Reply extends TimeStamp {
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 
-    public Reply(String content, Board board) {
+    @ManyToOne
+    private User user;
+
+    public Reply(User user, String content, Board board) {
+        this.user = user;
         this.content = content;
         this.board = board;
         this.board.getReplies().add(this);
