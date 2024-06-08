@@ -21,15 +21,7 @@ public class ReplyServiceImpl implements ReplyService {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("Board not found"));
         Reply reply = new Reply(user, content, board);
         reply = replyRepository.save(reply);
-
-        return ReplyResponseDto.builder()
-                .username(user.getUsername())
-                .id(reply.getId())
-                .content(reply.getContent())
-                .createdAt(reply.getCreatedAt())
-                .updatedAt(reply.getUpdatedAt())
-                .boardId(reply.getBoard().getId())
-                .build();
+        return new ReplyResponseDto(reply);
     }
 
     @Override
@@ -41,13 +33,6 @@ public class ReplyServiceImpl implements ReplyService {
 
         reply.setContent(content);
         reply = replyRepository.save(reply);
-        return ReplyResponseDto.builder()
-                .username(user.getUsername())
-                .id(reply.getId())
-                .content(reply.getContent())
-                .createdAt(reply.getCreatedAt())
-                .updatedAt(reply.getUpdatedAt())
-                .boardId(reply.getBoard().getId())
-                .build();
+        return new ReplyResponseDto(reply);
     }
 }

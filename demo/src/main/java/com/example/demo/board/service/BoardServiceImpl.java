@@ -22,7 +22,7 @@ public class BoardServiceImpl implements BoardService {
     public BoardResponseDto saveBoard(User user, String title, String content) {
         Board board = new Board(user, title, content);
         board = boardRepository.save(board);
-        return entityToDTO(board);
+        return new BoardResponseDto(board);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class BoardServiceImpl implements BoardService {
         Board board = getBoardOrElseThrow(id);
         board.addViews();
         board = boardRepository.save(board);
-        return entityToDTO(board);
+        return new BoardResponseDto(board);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class BoardServiceImpl implements BoardService {
         board.setTitle(title);
         board.setContent(content);
         board = boardRepository.save(board);
-        return entityToDTO(board);
+        return new BoardResponseDto(board);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class BoardServiceImpl implements BoardService {
     public List<BoardResponseDto> getBoards() {
         List<BoardResponseDto> boards = new ArrayList<>();
         Iterable<Board> boardList = boardRepository.findAll();
-        boardList.forEach(board -> boards.add(entityToDTO(board)));
+        boardList.forEach(board -> boards.add(new BoardResponseDto(board)));
         return boards;
     }
 
@@ -68,27 +68,5 @@ public class BoardServiceImpl implements BoardService {
                 new IllegalArgumentException("Board not found")
         );
         return board;
-    }
-
-
-    private BoardResponseDto entityToDTO(Board board) {
-        return BoardResponseDto.builder()
-                .username(board.getUser().getUsername())
-                .id(board.getId())
-                .title(board.getTitle())
-                .content(board.getContent())
-                .views(board.getViews())
-                .numOfReplies(board.getNumOfReplies())
-                .createdAt(board.getCreatedAt())
-                .updatedAt(board.getUpdatedAt())
-                .replies(board.getReplies().stream().map(
-                        reply -> ReplyResponseDto.builder()
-                                .id(reply.getId())
-                                .content(reply.getContent())
-                                .createdAt(reply.getCreatedAt())
-                                .updatedAt(reply.getUpdatedAt())
-                                .boardId(board.getId()).build()
-                ).collect(Collectors.toList()))
-                .build();
     }
 }

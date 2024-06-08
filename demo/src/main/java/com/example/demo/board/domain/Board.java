@@ -27,7 +27,7 @@ public class Board extends TimeStamp {
     @ManyToOne
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Recommend> recommends = new ArrayList<>();
 
     protected Board() {}

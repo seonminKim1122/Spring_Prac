@@ -34,4 +34,8 @@ public class Recommend extends TimeStamp {
     private User user;
 
     private boolean isRecommend; // 추천이면 true, 비추천이면 false
+
+    public void setRecommend(boolean isRecommend) {
+        this.isRecommend = isRecommend;
+    }
 }
