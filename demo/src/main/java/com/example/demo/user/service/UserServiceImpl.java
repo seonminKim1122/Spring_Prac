@@ -3,6 +3,7 @@ package com.example.demo.user.service;
 import com.example.demo.user.domain.User;
 import com.example.demo.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,16 +35,6 @@ public class UserServiceImpl implements UserService {
         }
 
         return "Successfully logged in";
-    }
-
-    /**
-     * 세션 방식 인증 체계 구축 후 구현 예정
-     * @param req
-     * @return
-     */
-    @Override
-    public String logout(HttpServletRequest req) {
-        return "Not Yet";
     }
 
     private User getUser(String username) {
