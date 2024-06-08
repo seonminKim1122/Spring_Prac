@@ -1,6 +1,7 @@
 package com.example.demo.recommend.domain;
 
 import com.example.demo.board.domain.Board;
+import com.example.demo.common.TimeStamp;
 import com.example.demo.reply.domain.Reply;
 import com.example.demo.user.domain.User;
 import jakarta.annotation.Nullable;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Recommend {
+public class Recommend extends TimeStamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

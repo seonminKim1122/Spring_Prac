@@ -1,6 +1,8 @@
 package com.example.demo.user.domain;
 
+import com.example.demo.board.domain.Board;
 import com.example.demo.common.TimeStamp;
+import com.example.demo.recommend.domain.Recommend;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;

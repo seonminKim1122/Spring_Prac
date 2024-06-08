@@ -2,11 +2,15 @@ package com.example.demo.reply.domain;
 
 import com.example.demo.board.domain.Board;
 import com.example.demo.common.TimeStamp;
+import com.example.demo.recommend.domain.Recommend;
 import com.example.demo.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,11 +23,14 @@ public class Reply extends TimeStamp {
     private Long id;
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Board board;
 
     @ManyToOne
     private User user;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Recommend> recommends = new ArrayList<>();
 
     public Reply(User user, String content, Board board) {
         this.user = user;

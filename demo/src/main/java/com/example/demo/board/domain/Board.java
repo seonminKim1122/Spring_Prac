@@ -1,6 +1,7 @@
 package com.example.demo.board.domain;
 
 import com.example.demo.common.TimeStamp;
+import com.example.demo.recommend.domain.Recommend;
 import com.example.demo.reply.domain.Reply;
 import com.example.demo.user.domain.User;
 import jakarta.persistence.*;
@@ -25,6 +26,9 @@ public class Board extends TimeStamp {
 
     @ManyToOne
     private User user;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Recommend> recommends = new ArrayList<>();
 
     protected Board() {}
 
