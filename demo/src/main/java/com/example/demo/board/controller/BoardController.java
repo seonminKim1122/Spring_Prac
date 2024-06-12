@@ -3,6 +3,7 @@ package com.example.demo.board.controller;
 import com.example.demo.board.dto.BoardRequestDto;
 import com.example.demo.board.dto.BoardResponseDto;
 import com.example.demo.board.service.BoardService;
+import com.example.demo.common.BasicMessageDto;
 import com.example.demo.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class BoardController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteBoard(@RequestAttribute("user") User user, @PathVariable Long id) throws Exception {
+    public ResponseEntity<BasicMessageDto> deleteBoard(@RequestAttribute("user") User user, @PathVariable Long id) throws Exception {
         return boardService.deleteBoard(user, id);
     }
 

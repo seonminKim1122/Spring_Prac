@@ -1,8 +1,13 @@
 package com.example.demo.user.service;
 
+import com.example.demo.common.BasicMessageDto;
+import com.example.demo.exception.CustomException;
+import com.example.demo.exception.ExceptionStatus;
 import com.example.demo.user.domain.User;
 import com.example.demo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,30 +19,31 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public String signup(String username, String password) {
+    public ResponseEntity<BasicMessageDto> signup(String username, String password) {
         Optional<User> existUser = userRepository.findByUsername(username);
         if (existUser.isPresent()) {
-            return "Username is already in use";
+            throw new CustomException(ExceptionStatus.DUPLICATE_USERNAME);
         }
+
         User user = new User(username, password);
         userRepository.save(user);
-        return "Successfully signed up";
+        return new ResponseEntity<>(new BasicMessageDto("Successfully signed up"), HttpStatus.OK);
     }
 
     @Override
-    public String login(String username, String password) {
+    public ResponseEntity<BasicMessageDto> login(String username, String password) {
         User user = getUser(username);
 
         if (!user.getPassword().equals(password)) {
-            return "Incorrect password";
+            throw new CustomException(ExceptionStatus.PASSWORD_INCORRECT);
         }
 
-        return "Successfully logged in";
+        return new ResponseEntity<>(new BasicMessageDto("Successfully logged in"), HttpStatus.OK);
     }
 
     private User getUser(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new IllegalArgumentException("Username or password is incorrect")
+                () -> new CustomException(ExceptionStatus.USER_NOT_FOUND)
         );
         return user;
     }

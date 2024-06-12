@@ -5,6 +5,7 @@ import com.example.demo.recommend.service.RecommendService;
 import com.example.demo.reply.dto.ReplyResponseDto;
 import com.example.demo.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -17,22 +18,22 @@ public class RecommendController {
     private final RecommendService recommendService;
 
     @PostMapping("/boards/{boardId}/like")
-    public BoardResponseDto likeBoard(@RequestAttribute("user") User user, @PathVariable Long boardId) {
+    public ResponseEntity<BoardResponseDto> likeBoard(@RequestAttribute("user") User user, @PathVariable Long boardId) {
         return recommendService.likeBoard(user, boardId);
     }
 
     @PostMapping("/boards/{boardId}/dislike")
-    public BoardResponseDto dislikeBoard(@RequestAttribute("user") User user, @PathVariable Long boardId) {
+    public ResponseEntity<BoardResponseDto> dislikeBoard(@RequestAttribute("user") User user, @PathVariable Long boardId) {
         return recommendService.dislikeBoard(user, boardId);
     }
 
     @PostMapping("/replies/{replyId}/like")
-    public ReplyResponseDto likeReply(@RequestAttribute("user") User user, @PathVariable Long replyId) {
+    public ResponseEntity<ReplyResponseDto> likeReply(@RequestAttribute("user") User user, @PathVariable Long replyId) {
         return recommendService.likeReply(user, replyId);
     }
 
     @PostMapping("/replies/{replyId}/dislike")
-    public ReplyResponseDto dislikeReply(@RequestAttribute("user") User user, @PathVariable Long replyId) {
+    public ResponseEntity<ReplyResponseDto> dislikeReply(@RequestAttribute("user") User user, @PathVariable Long replyId) {
         return recommendService.dislikeReply(user, replyId);
     }
 }

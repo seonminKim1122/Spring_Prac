@@ -3,6 +3,8 @@ package com.example.demo.recommend.service;
 import com.example.demo.board.domain.Board;
 import com.example.demo.board.dto.BoardResponseDto;
 import com.example.demo.board.repository.BoardRepository;
+import com.example.demo.exception.CustomException;
+import com.example.demo.exception.ExceptionStatus;
 import com.example.demo.recommend.domain.Recommend;
 import com.example.demo.recommend.repository.RecommendRepository;
 import com.example.demo.reply.domain.Reply;
@@ -10,6 +12,8 @@ import com.example.demo.reply.dto.ReplyResponseDto;
 import com.example.demo.reply.repository.ReplyRepository;
 import com.example.demo.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -23,28 +27,28 @@ public class RecommendServiceImpl implements RecommendService {
     private final ReplyRepository replyRepository;
 
     @Override
-    public BoardResponseDto likeBoard(User user, Long boardId) {
-        return boardLogic(user, boardId, true);
+    public ResponseEntity<BoardResponseDto> likeBoard(User user, Long boardId) {
+        return new ResponseEntity<>(boardLogic(user, boardId, true), HttpStatus.OK);
     }
 
     @Override
-    public BoardResponseDto dislikeBoard(User user, Long boardId) {
-        return boardLogic(user, boardId, false);
+    public ResponseEntity<BoardResponseDto> dislikeBoard(User user, Long boardId) {
+        return new ResponseEntity<>(boardLogic(user, boardId, false), HttpStatus.OK);
     }
 
     @Override
-    public ReplyResponseDto likeReply(User user, Long replyId) {
-        return replyLogic(user, replyId, true);
+    public ResponseEntity<ReplyResponseDto> likeReply(User user, Long replyId) {
+        return new ResponseEntity<>(replyLogic(user, replyId, true), HttpStatus.OK);
     }
 
     @Override
-    public ReplyResponseDto dislikeReply(User user, Long replyId) {
-        return replyLogic(user, replyId, false);
+    public ResponseEntity<ReplyResponseDto> dislikeReply(User user, Long replyId) {
+        return new ResponseEntity<>(replyLogic(user, replyId, false), HttpStatus.OK);
     }
 
 
     private Board getBoardOrElseThrow(Long boardId) {
-        return boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("Cannot find board"));
+        return boardRepository.findById(boardId).orElseThrow(() -> new CustomException(ExceptionStatus.BOARD_NOT_FOUND));
     }
 
     private BoardResponseDto boardLogic(User user, Long boardId, boolean isRecommend) {
@@ -68,7 +72,7 @@ public class RecommendServiceImpl implements RecommendService {
     }
 
     private Reply getReplyOrElseThrow(Long replyId) {
-        return replyRepository.findById(replyId).orElseThrow(() -> new IllegalArgumentException("Cannot find reply"));
+        return replyRepository.findById(replyId).orElseThrow(() -> new CustomException(ExceptionStatus.REPLY_NOT_FOUND));
     }
 
     private ReplyResponseDto replyLogic(User user, Long replyId, boolean isRecommend) {

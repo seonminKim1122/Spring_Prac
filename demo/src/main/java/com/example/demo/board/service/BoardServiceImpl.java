@@ -3,6 +3,9 @@ package com.example.demo.board.service;
 import com.example.demo.board.domain.Board;
 import com.example.demo.board.dto.BoardResponseDto;
 import com.example.demo.board.repository.BoardRepository;
+import com.example.demo.common.BasicMessageDto;
+import com.example.demo.exception.CustomException;
+import com.example.demo.exception.ExceptionStatus;
 import com.example.demo.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
     public ResponseEntity<BoardResponseDto> updateBoard(User user, Long id, String title, String content) throws Exception {
         Board board = getBoardOrElseThrow(id);
         if (!board.getUser().getUsername().equals(user.getUsername())) {
-            throw new Exception("게시글을 수정할 권한이 없습니다.");
+            throw new CustomException(ExceptionStatus.MODIFY_FAILED);
         }
         board.setTitle(title);
         board.setContent(content);
@@ -47,13 +50,13 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ResponseEntity<String> deleteBoard(User user, Long id) throws Exception {
+    public ResponseEntity<BasicMessageDto> deleteBoard(User user, Long id) throws Exception {
         Board board = getBoardOrElseThrow(id);
         if (!board.getUser().getUsername().equals(user.getUsername())) {
-            throw new Exception("게시글을 삭제할 권한이 없습니다.");
+            throw new CustomException(ExceptionStatus.DELETE_FAILED);
         }
         boardRepository.delete(board);
-        return new ResponseEntity<>("Successfully deleted", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new BasicMessageDto("Successfully deleted"), HttpStatus.OK);
     }
 
     @Override
@@ -66,7 +69,7 @@ public class BoardServiceImpl implements BoardService {
 
     private Board getBoardOrElseThrow(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("Board not found")
+                new CustomException(ExceptionStatus.BOARD_NOT_FOUND)
         );
         return board;
     }

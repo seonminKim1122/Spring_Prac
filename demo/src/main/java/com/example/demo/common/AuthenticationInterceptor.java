@@ -1,12 +1,13 @@
 package com.example.demo.common;
 
+import com.example.demo.exception.CustomException;
+import com.example.demo.exception.ExceptionStatus;
 import com.example.demo.user.domain.User;
 import com.example.demo.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -23,12 +24,12 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
         HttpSession session = request.getSession();
         if (session == null || session.getAttribute("loginMember") == null) {
-            throw new AuthenticationException("Invalid Session");
+            throw new CustomException(ExceptionStatus.INVALID_SESSION);
         }
 
         String username = (String) session.getAttribute("loginMember");
         User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new IllegalStateException("User not found")
+                () -> new CustomException(ExceptionStatus.USER_NOT_FOUND)
         );
 
         request.setAttribute("user", user);
