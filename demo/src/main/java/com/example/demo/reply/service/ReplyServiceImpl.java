@@ -6,11 +6,11 @@ import com.example.demo.reply.domain.Reply;
 import com.example.demo.reply.dto.ReplyResponseDto;
 import com.example.demo.reply.repository.ReplyRepository;
 import com.example.demo.user.domain.User;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ReplyServiceImpl implements ReplyService {
 
     private final ReplyRepository replyRepository;

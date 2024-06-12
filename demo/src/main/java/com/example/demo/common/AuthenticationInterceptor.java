@@ -5,13 +5,13 @@ import com.example.demo.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
     private final UserRepository userRepository;

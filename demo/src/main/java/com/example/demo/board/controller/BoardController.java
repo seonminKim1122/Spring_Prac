@@ -5,6 +5,7 @@ import com.example.demo.board.dto.BoardResponseDto;
 import com.example.demo.board.service.BoardService;
 import com.example.demo.user.domain.User;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController()
 @RequestMapping(value = "/boards")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BoardController {
 
     private final BoardService boardService;

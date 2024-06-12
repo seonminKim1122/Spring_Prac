@@ -4,15 +4,14 @@ import com.example.demo.board.dto.BoardResponseDto;
 import com.example.demo.recommend.service.RecommendService;
 import com.example.demo.reply.dto.ReplyResponseDto;
 import com.example.demo.user.domain.User;
-import com.example.demo.user.repository.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RecommendController {
 
     private final RecommendService recommendService;

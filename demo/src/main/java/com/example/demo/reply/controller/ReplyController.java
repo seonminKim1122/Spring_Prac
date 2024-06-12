@@ -4,12 +4,12 @@ import com.example.demo.reply.dto.ReplyRequestDto;
 import com.example.demo.reply.dto.ReplyResponseDto;
 import com.example.demo.reply.service.ReplyService;
 import com.example.demo.user.domain.User;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/boards/{boardId}/replies")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ReplyController {
 
     private final ReplyService replyService;
