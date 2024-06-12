@@ -17,6 +17,5 @@ public class AppConfig implements WebMvcConfigurer {
         registry.addInterceptor(authenticationInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/accounts/**");
-//        WebMvcConfigurer.super.addInterceptors(registry);
     }
 }
