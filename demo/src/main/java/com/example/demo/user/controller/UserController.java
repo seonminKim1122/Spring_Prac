@@ -1,10 +1,12 @@
 package com.example.demo.user.controller;
 
 import com.example.demo.common.BasicMessageDto;
+import com.example.demo.user.dto.SignupDto;
 import com.example.demo.user.dto.UserRequestDto;
 import com.example.demo.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +23,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<BasicMessageDto> signup(@RequestBody UserRequestDto userRequestDto) {
-        return userService.signup(userRequestDto.getUsername(), userRequestDto.getPassword());
+    public ResponseEntity<BasicMessageDto> signup(@Valid @RequestBody SignupDto signupDto) {
+        return userService.signup(signupDto.getUsername(), signupDto.getPassword());
     }
 
     @PostMapping("/login")
