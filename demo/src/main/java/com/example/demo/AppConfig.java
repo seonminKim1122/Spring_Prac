@@ -1,16 +1,16 @@
 package com.example.demo;
 
-import com.example.demo.common.AuthenticationInterceptor;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AppConfig implements WebMvcConfigurer {
 
-    private final AuthenticationInterceptor authenticationInterceptor;
+    private final HandlerInterceptor authenticationInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

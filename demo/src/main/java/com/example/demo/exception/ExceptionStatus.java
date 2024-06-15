@@ -13,7 +13,8 @@ public enum ExceptionStatus {
     BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 게시글입니다"),
     INVALID_SESSION(HttpStatus.UNAUTHORIZED, "세션이 유효하지 않습니다"),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 username 입니다"),
-    REPLY_NOT_FOUND(HttpStatus.NO_CONTENT, "존재하지 않는 댓글입니다");
+    REPLY_NOT_FOUND(HttpStatus.NO_CONTENT, "존재하지 않는 댓글입니다"),
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 없거나 유효하지 않습니다");
 
     private HttpStatus status;
     private String message;
