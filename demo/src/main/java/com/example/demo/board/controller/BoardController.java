@@ -32,13 +32,13 @@ public class BoardController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BoardResponseDto> updateBoard(@RequestAttribute("user") User user, @PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto) throws Exception {
-        return boardService.updateBoard(user, id, boardRequestDto.getTitle(), boardRequestDto.getContent());
+    public ResponseEntity<BoardResponseDto> updateBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto) throws Exception {
+        return boardService.updateBoard(userDetails.getUser(), id, boardRequestDto.getTitle(), boardRequestDto.getContent());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BasicMessageDto> deleteBoard(@RequestAttribute("user") User user, @PathVariable Long id) throws Exception {
-        return boardService.deleteBoard(user, id);
+    public ResponseEntity<BasicMessageDto> deleteBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id) throws Exception {
+        return boardService.deleteBoard(userDetails.getUser(), id);
     }
 
     @GetMapping
