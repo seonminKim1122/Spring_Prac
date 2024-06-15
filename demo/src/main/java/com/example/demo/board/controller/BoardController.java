@@ -4,10 +4,12 @@ import com.example.demo.board.dto.BoardRequestDto;
 import com.example.demo.board.dto.BoardResponseDto;
 import com.example.demo.board.service.BoardService;
 import com.example.demo.common.BasicMessageDto;
+import com.example.demo.security.UserDetailsImpl;
 import com.example.demo.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +27,8 @@ public class BoardController {
     }
 
     @PostMapping
-    public ResponseEntity<BoardResponseDto> createBoard(@RequestAttribute("user") User user, @RequestBody BoardRequestDto boardRequestDto) {
-        return boardService.saveBoard(user, boardRequestDto.getTitle(), boardRequestDto.getContent());
+    public ResponseEntity<BoardResponseDto> createBoard(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody BoardRequestDto boardRequestDto) {
+        return boardService.saveBoard(userDetails.getUser(), boardRequestDto.getTitle(), boardRequestDto.getContent());
     }
 
     @PutMapping("/{id}")
