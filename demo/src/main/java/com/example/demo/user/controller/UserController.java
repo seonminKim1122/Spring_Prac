@@ -5,6 +5,7 @@ import com.example.demo.user.dto.SignupDto;
 import com.example.demo.user.dto.UserRequestDto;
 import com.example.demo.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,8 @@ public class UserController {
         return userService.signup(signupDto.getUsername(), signupDto.getPassword());
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<BasicMessageDto> login(@RequestBody UserRequestDto userRequestDto, HttpServletRequest request) {
+    @PostMapping("/login/session")
+    public ResponseEntity<BasicMessageDto> loginSession(@RequestBody UserRequestDto userRequestDto, HttpServletRequest request) {
         ResponseEntity<BasicMessageDto> response = userService.login(userRequestDto.getUsername(), userRequestDto.getPassword());
 
         // 세션에 유저 정보 저장
@@ -39,6 +40,11 @@ public class UserController {
         }
 
         return userService.login(userRequestDto.getUsername(), userRequestDto.getPassword());
+    }
+
+    @PostMapping("/login/token")
+    public ResponseEntity<BasicMessageDto> loginToken(@RequestBody UserRequestDto userRequestDto, HttpServletResponse response) {
+        return userService.loginToken(userRequestDto.getUsername(), userRequestDto.getPassword(), response);
     }
 
     @PostMapping("/logout")

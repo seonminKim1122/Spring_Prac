@@ -3,8 +3,10 @@ package com.example.demo.user.service;
 import com.example.demo.common.BasicMessageDto;
 import com.example.demo.exception.CustomException;
 import com.example.demo.exception.ExceptionStatus;
+import com.example.demo.jwt.JwtUtil;
 import com.example.demo.user.domain.User;
 import com.example.demo.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
 
     @Override
     public ResponseEntity<BasicMessageDto> signup(String username, String password) {
@@ -40,6 +43,19 @@ public class UserServiceImpl implements UserService {
 
         return new ResponseEntity<>(new BasicMessageDto("Successfully logged in"), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<BasicMessageDto> loginToken(String username, String password, HttpServletResponse response) {
+        User user = getUser(username);
+
+        if (!user.getPassword().equals(password)) {
+            throw new CustomException(ExceptionStatus.PASSWORD_INCORRECT);
+        }
+
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(username));
+        return new ResponseEntity<>(new BasicMessageDto("Successfully logged in"), HttpStatus.OK);
+    }
+
 
     private User getUser(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
