@@ -1,9 +1,5 @@
 package com.example.demo.jwt;
 
-import com.example.demo.exception.CustomException;
-import com.example.demo.exception.ExceptionStatus;
-import com.example.demo.user.domain.User;
-import com.example.demo.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

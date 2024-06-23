@@ -43,10 +43,11 @@ public class WebSecurityConfig {
                 }))
                 .authorizeHttpRequests((authorizeRequests) -> {
                     authorizeRequests.requestMatchers("/accounts/**").permitAll()
+                            .requestMatchers("/login/oauth2/**").permitAll()
+                            .requestMatchers("/oauth/**").permitAll()
                             .requestMatchers(HttpMethod.GET, "/boards/**").permitAll()
                             .anyRequest().authenticated();
                 }).addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 }

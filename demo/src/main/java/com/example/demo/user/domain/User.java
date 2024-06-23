@@ -1,20 +1,22 @@
 package com.example.demo.user.domain;
 
-import com.example.demo.board.domain.Board;
 import com.example.demo.common.TimeStamp;
-import com.example.demo.recommend.domain.Recommend;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "Users")
 @Getter
 @NoArgsConstructor
+@Builder
 public class User extends TimeStamp {
 
     @Id
     private String username;
+    @Nullable
     private String password;
 
     public User(String username, String password) {
